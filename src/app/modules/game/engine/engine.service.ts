@@ -1,5 +1,5 @@
-import { WindowRefService } from './../services/window-ref.service';
-import {ElementRef, Injectable, NgZone} from '@angular/core';
+import { WindowRefService } from '../../../services/window-ref.service';
+import { ElementRef, Injectable, NgZone } from '@angular/core';
 import {
   Engine,
   FreeCamera,
@@ -13,7 +13,7 @@ import {
   StandardMaterial,
   Texture,
   DynamicTexture,
-  Space
+  Space,
 } from '@babylonjs/core';
 
 @Injectable({ providedIn: 'root' })
@@ -36,14 +36,18 @@ export class EngineService {
     this.canvas = canvas.nativeElement;
 
     // Then, load the Babylon 3D engine:
-    this.engine = new Engine(this.canvas,  true);
+    this.engine = new Engine(this.canvas, true);
 
     // create a basic BJS Scene object
     this.scene = new Scene(this.engine);
     this.scene.clearColor = new Color4(0, 0, 0, 0);
 
     // create a FreeCamera, and set its position to (x:5, y:10, z:-20 )
-    this.camera = new FreeCamera('camera1', new Vector3(5, 10, -20), this.scene);
+    this.camera = new FreeCamera(
+      'camera1',
+      new Vector3(5, 10, -20),
+      this.scene
+    );
 
     // target the camera to scene origin
     this.camera.setTarget(Vector3.Zero());
@@ -52,14 +56,21 @@ export class EngineService {
     this.camera.attachControl(this.canvas, false);
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
-    this.light = new HemisphericLight('light1', new Vector3(0, 1, 0), this.scene);
+    this.light = new HemisphericLight(
+      'light1',
+      new Vector3(0, 1, 0),
+      this.scene
+    );
 
     // create a built-in "sphere" shape; its constructor takes 4 params: name, subdivisions, radius, scene
     this.sphere = Mesh.CreateSphere('sphere1', 16, 2, this.scene);
 
     // create the material with its texture for the sphere and assign it to the sphere
     const spherMaterial = new StandardMaterial('sun_surface', this.scene);
-    spherMaterial.diffuseTexture = new Texture('assets/textures/sun.jpg', this.scene);
+    spherMaterial.diffuseTexture = new Texture(
+      'assets/textures/sun.jpg',
+      this.scene
+    );
     this.sphere.material = spherMaterial;
 
     // move the sphere upward 1/2 of its height
@@ -67,11 +78,7 @@ export class EngineService {
 
     // simple rotation along the y axis
     this.scene.registerAfterRender(() => {
-      this.sphere.rotate (
-        new Vector3(0, 1, 0),
-        0.02,
-        Space.LOCAL
-      );
+      this.sphere.rotate(new Vector3(0, 1, 0), 0.02, Space.LOCAL);
     });
 
     // generates the world x-y-z axis for better understanding
@@ -108,11 +115,23 @@ export class EngineService {
    * @param size number
    */
   public showWorldAxis(size: number): void {
-
     const makeTextPlane = (text: string, color: string, textSize: number) => {
-      const dynamicTexture = new DynamicTexture('DynamicTexture', 50, this.scene, true);
+      const dynamicTexture = new DynamicTexture(
+        'DynamicTexture',
+        50,
+        this.scene,
+        true
+      );
       dynamicTexture.hasAlpha = true;
-      dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color , 'transparent', true);
+      dynamicTexture.drawText(
+        text,
+        5,
+        40,
+        'bold 36px Arial',
+        color,
+        'transparent',
+        true
+      );
       const plane = Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
       const material = new StandardMaterial('TextPlaneMaterial', this.scene);
       material.backFaceCulling = false;
@@ -127,8 +146,10 @@ export class EngineService {
       'axisX',
       [
         Vector3.Zero(),
-        new Vector3(size, 0, 0), new Vector3(size * 0.95, 0.05 * size, 0),
-        new Vector3(size, 0, 0), new Vector3(size * 0.95, -0.05 * size, 0)
+        new Vector3(size, 0, 0),
+        new Vector3(size * 0.95, 0.05 * size, 0),
+        new Vector3(size, 0, 0),
+        new Vector3(size * 0.95, -0.05 * size, 0),
       ],
       this.scene,
       true
@@ -141,8 +162,11 @@ export class EngineService {
     const axisY = Mesh.CreateLines(
       'axisY',
       [
-        Vector3.Zero(), new Vector3(0, size, 0), new Vector3( -0.05 * size, size * 0.95, 0),
-        new Vector3(0, size, 0), new Vector3( 0.05 * size, size * 0.95, 0)
+        Vector3.Zero(),
+        new Vector3(0, size, 0),
+        new Vector3(-0.05 * size, size * 0.95, 0),
+        new Vector3(0, size, 0),
+        new Vector3(0.05 * size, size * 0.95, 0),
       ],
       this.scene,
       true
@@ -155,8 +179,11 @@ export class EngineService {
     const axisZ = Mesh.CreateLines(
       'axisZ',
       [
-        Vector3.Zero(), new Vector3(0, 0, size), new Vector3( 0 , -0.05 * size, size * 0.95),
-        new Vector3(0, 0, size), new Vector3( 0, 0.05 * size, size * 0.95)
+        Vector3.Zero(),
+        new Vector3(0, 0, size),
+        new Vector3(0, -0.05 * size, size * 0.95),
+        new Vector3(0, 0, size),
+        new Vector3(0, 0.05 * size, size * 0.95),
       ],
       this.scene,
       true

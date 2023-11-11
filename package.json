@@ -1,6 +1,6 @@
 {
-  "name": "ng-babylon-template",
-  "version": "16.2.0",
+  "name": "cheese-game-the-game",
+  "version": "0.2.1.3.7",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
