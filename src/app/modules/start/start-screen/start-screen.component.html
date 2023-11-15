@@ -1,1 +1,16 @@
-<p>start-screen works!</p>
+<div #mainMenu class="body-menu">
+  <div class="menu-box flex justify-content-center align-items-center">
+    <p-card>
+      <ng-template pTemplate="header">
+        <h1 class="p-3">Cheese Game: The Game</h1>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <div class="flex align-items-center flex-column flex-wrap gap-4">
+          <p-button [raised]="true" [rounded]="true" label="New game"></p-button>
+          <p-button [raised]="true" [rounded]="true" label="Hat shop"></p-button>
+          <p-button [raised]="true" [rounded]="true" label="Options"></p-button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
