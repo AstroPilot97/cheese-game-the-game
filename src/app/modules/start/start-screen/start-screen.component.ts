@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as PIXI from 'pixi.js';
+// import * as PIXI from 'pixi.js';
 
 @Component({
   selector: 'app-start-screen',
@@ -7,10 +7,10 @@ import * as PIXI from 'pixi.js';
   styleUrls: ['./start-screen.component.scss'],
 })
 export class StartScreenComponent implements OnInit {
-  private app = new PIXI.Application({
-    background: '#1099bb',
-    resizeTo: window,
-  });
+  // private app = new PIXI.Application({
+  //   background: '#1099bb',
+  //   resizeTo: window,
+  // });
 
   ngOnInit(): void {
     // this.renderBackground();

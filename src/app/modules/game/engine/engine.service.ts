@@ -14,13 +14,15 @@ import {
   Texture,
   DynamicTexture,
   Space,
+  ArcRotateCamera,
+  MeshBuilder,
 } from '@babylonjs/core';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
   private canvas: HTMLCanvasElement;
   private engine: Engine;
-  private camera: FreeCamera;
+  private camera: ArcRotateCamera;
   private scene: Scene;
   private light: Light;
 
@@ -43,11 +45,17 @@ export class EngineService {
     this.scene.clearColor = new Color4(0, 0, 0, 0);
 
     // create a FreeCamera, and set its position to (x:5, y:10, z:-20 )
-    this.camera = new FreeCamera(
+    this.camera = new ArcRotateCamera(
       'camera1',
+      5,
+      10,
+      -1,
       new Vector3(5, 10, -20),
       this.scene
     );
+
+    this.camera.lowerRadiusLimit = 10;
+    this.camera.upperRadiusLimit = 10;
 
     // target the camera to scene origin
     this.camera.setTarget(Vector3.Zero());
@@ -63,7 +71,11 @@ export class EngineService {
     );
 
     // create a built-in "sphere" shape; its constructor takes 4 params: name, subdivisions, radius, scene
-    this.sphere = Mesh.CreateSphere('sphere1', 16, 2, this.scene);
+    this.sphere = MeshBuilder.CreateSphere(
+      'sphere1',
+      { segments: 16, diameter: 2 },
+      this.scene
+    );
 
     // create the material with its texture for the sphere and assign it to the sphere
     const spherMaterial = new StandardMaterial('sun_surface', this.scene);
@@ -75,11 +87,6 @@ export class EngineService {
 
     // move the sphere upward 1/2 of its height
     this.sphere.position.y = 1;
-
-    // simple rotation along the y axis
-    this.scene.registerAfterRender(() => {
-      this.sphere.rotate(new Vector3(0, 1, 0), 0.02, Space.LOCAL);
-    });
 
     // generates the world x-y-z axis for better understanding
     this.showWorldAxis(8);
