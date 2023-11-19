@@ -7,6 +7,7 @@ import {
   HemisphericLight,
   Vector3,
   SceneLoader,
+  Mesh,
 } from '@babylonjs/core';
 import { WindowRefService } from 'src/app/services/window-ref.service';
 import '@babylonjs/loaders/glTF';
@@ -20,6 +21,7 @@ export class ShopService {
   private camera: ArcRotateCamera;
   private scene: Scene;
   private light: HemisphericLight;
+  private currentHat: Mesh;
 
   constructor(private ngZone: NgZone, private windowRef: WindowRefService) {}
 
@@ -60,13 +62,8 @@ export class ShopService {
     SceneLoader.ImportMesh(
       '',
       'assets/models/cheese/',
-      'cheese_wedge.glb',
-      this.scene,
-      (meshes) => {
-        meshes.forEach((mesh) => {
-          mesh.scaling = new Vector3(1.3, 1.3, 1.3);
-        });
-      }
+      'cheese.glb',
+      this.scene
     );
 
     SceneLoader.ImportMesh(
@@ -89,7 +86,11 @@ export class ShopService {
     description: string;
     price: string;
   }): void {
-    // this.currentHat = this.scene.meshes.pop();
+    if (this.currentHat) {
+      this.currentHat.dispose();
+    } else {
+      this.currentHat = new Mesh('hat', this.scene);
+    }
     SceneLoader.ImportMesh(
       '',
       'assets/models/hats/',
@@ -97,8 +98,7 @@ export class ShopService {
       this.scene,
       (meshes) => {
         meshes.forEach((mesh) => {
-          mesh.scaling = new Vector3(0.7, 0.7, 0.7);
-          mesh.position = new Vector3(0, 1.2, -0.5);
+          mesh.setParent(this.currentHat);
         });
       }
     );

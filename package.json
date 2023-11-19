@@ -24,7 +24,6 @@
     "@angular/router": "~16.2.1",
     "@babylonjs/core": "^6.17.0",
     "@babylonjs/materials": "^6.17.0",
-    "pixi.js": "^7.3.2",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primeng": "^16.7.2",

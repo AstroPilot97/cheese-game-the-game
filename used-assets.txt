@@ -2,6 +2,11 @@ Assets used for the app:
 
 Cheese icon: https://www.iconarchive.com/show/desktop-buffet-icons-by-aha-soft/Cheese-icon.html
 Cheese font: https://www.fontspace.com/cheese-bread-font-f91760
-Cheese (protagonist): https://sketchfab.com/3d-models/cheese-wedge-5167e6bba94a4c09b4d780f625bceeda
+Cheese (protagonist): https://sketchfab.com/3d-models/cheese-6aca23ca300b474888ad72b00be9595d
 Pedestal: https://sketchfab.com/3d-models/pedestal-a3b2a210bd1a4a399a3922211feae1d2
-Top hat model: https://sketchfab.com/3d-models/top-hat-689cd0d635cf4906920dd3ba435d991e
+Christmas hat: https://sketchfab.com/3d-models/christmas-hat-b44d66b16ba543c9825af6f95bd3d678
+Top hat: https://sketchfab.com/3d-models/top-hat-689cd0d635cf4906920dd3ba435d991e
+Cowboy hat: https://sketchfab.com/3d-models/cowboy-hat-free-bd968c68d7b74629a7e062af0842082b
+Clown hat: https://sketchfab.com/3d-models/clown-hat-0f5ef2e6205c4b438c593a979a3ccdae
+Beanie hat: https://sketchfab.com/3d-models/hat-bedf29674a0048a5bb628cf720f6c96e
+Rice hat: https://sketchfab.com/3d-models/rice-hat-asian-conical-hat-70069222f23f46679588c9ea384219a4
