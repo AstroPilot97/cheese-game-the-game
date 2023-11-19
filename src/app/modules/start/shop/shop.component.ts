@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EngineService } from '../../game/engine/engine.service';
+import { ShopService } from './shop.service';
 
 @Component({
   selector: 'app-shop',
@@ -18,27 +19,9 @@ export class ShopComponent implements OnInit {
       price: '$2.49',
     },
     {
-      name: 'Christmas Hat',
-      fileName: 'christmas_hat',
-      description: 'Ho-Ho-Holy cheese!',
-      price: '$2.49',
-    },
-    {
-      name: 'Christmas Hat',
-      fileName: 'christmas_hat',
-      description: 'Ho-Ho-Holy cheese!',
-      price: '$2.49',
-    },
-    {
-      name: 'Christmas Hat',
-      fileName: 'christmas_hat',
-      description: 'Ho-Ho-Holy cheese!',
-      price: '$2.49',
-    },
-    {
-      name: 'Christmas Hat',
-      fileName: 'christmas_hat',
-      description: 'Ho-Ho-Holy cheese!',
+      name: 'Top Hat',
+      fileName: 'top_hat',
+      description: 'Got quite the knacker for style.',
       price: '$2.49',
     },
     {
@@ -67,10 +50,19 @@ export class ShopComponent implements OnInit {
     },
   ];
 
-  public constructor(private engServ: EngineService) {}
+  public constructor(private shopService: ShopService) {}
 
   public ngOnInit(): void {
-    this.engServ.createScene(this.rendererCanvas);
-    this.engServ.animate();
+    this.shopService.createScene(this.rendererCanvas);
+    this.shopService.animate();
+  }
+
+  public previewHat(hat: {
+    name: string;
+    fileName: string;
+    description: string;
+    price: string;
+  }): void {
+    this.shopService.addHatToCheese(hat);
   }
 }

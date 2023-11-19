@@ -3,3 +3,5 @@ Assets used for the app:
 Cheese icon: https://www.iconarchive.com/show/desktop-buffet-icons-by-aha-soft/Cheese-icon.html
 Cheese font: https://www.fontspace.com/cheese-bread-font-f91760
 Cheese (protagonist): https://sketchfab.com/3d-models/cheese-wedge-5167e6bba94a4c09b4d780f625bceeda
+Pedestal: https://sketchfab.com/3d-models/pedestal-a3b2a210bd1a4a399a3922211feae1d2
+Top hat model: https://sketchfab.com/3d-models/top-hat-689cd0d635cf4906920dd3ba435d991e

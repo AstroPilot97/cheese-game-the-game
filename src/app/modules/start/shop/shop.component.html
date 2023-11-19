@@ -1,6 +1,6 @@
 <div class="shop-body">
-  <div class="pl-2">
-    <h1>Microtransactions baby</h1>
+  <div class="pl-2 pt-2">
+    <h1 class="shop-title">Microtransactions baby</h1>
   </div>
   <div class="flex flex-row">
     <div class="col hat-list">
@@ -11,7 +11,7 @@
               <img alt="hat-preview" src='assets/images/shop-previews/{{hat.fileName}}.png' />
             </ng-template>
             <ng-template pTemplate="content">
-              <p-button icon="pi pi-search"></p-button>
+              <p-button icon="pi pi-search" (click)="previewHat(hat)"></p-button>
               <p-button [label]="hat.price" icon="pi pi-cart-plus" styleClass="p-button-secondary"
                 [style]="{ 'margin-left': '.5em' }"></p-button>
             </ng-template>
