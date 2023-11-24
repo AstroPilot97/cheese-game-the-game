@@ -44,9 +44,7 @@
             "allowedCommonJsDependencies": [
               "babylonjs-materials"
             ],
-            "scripts": [
-              "node_modules/pixi.js/dist/pixi.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
