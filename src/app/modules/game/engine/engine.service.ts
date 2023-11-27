@@ -4,23 +4,15 @@ import {
   Engine,
   FreeCamera,
   Scene,
-  Light,
-  Mesh,
-  Color3,
-  Color4,
   Vector3,
   HemisphericLight,
-  StandardMaterial,
-  Texture,
-  DynamicTexture,
-  Space,
-  ArcRotateCamera,
-  MeshBuilder,
   SceneLoader,
-  MirrorTexture,
-  Plane,
-  Constants,
-  SSRRenderingPipeline,
+  DirectionalLight,
+  DirectionalLightFrustumViewer,
+  ShadowGenerator,
+  Tools,
+  Space,
+  Quaternion,
 } from '@babylonjs/core';
 
 @Injectable({ providedIn: 'root' })
@@ -29,7 +21,9 @@ export class EngineService {
   private engine: Engine;
   private camera: FreeCamera;
   private scene: Scene;
-  private light: Light;
+  private hemiLight: HemisphericLight;
+  private sunlight: DirectionalLight;
+  private shadowGenerator: ShadowGenerator;
 
   public constructor(
     private ngZone: NgZone,
@@ -45,7 +39,6 @@ export class EngineService {
 
     // create a basic BJS Scene object
     this.scene = new Scene(this.engine);
-    this.scene.clearColor = new Color4(1, 1, 1, 1);
 
     // create a FreeCamera, and set its position to (x:5, y:10, z:-20 )
     this.camera = new FreeCamera(
@@ -63,52 +56,92 @@ export class EngineService {
     this.scene.activeCamera = this.camera;
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
-    this.light = new HemisphericLight(
+    this.hemiLight = new HemisphericLight(
       'light1',
       new Vector3(0, 1, 0),
       this.scene
     );
 
-    this.initCheeseDisplay();
-    this.initSSR();
+    this.hemiLight.intensity = 0.3;
+
+    this.sunlight = new DirectionalLight(
+      'sunlight',
+      new Vector3(-2, -1, 1.8),
+      this.scene
+    );
+
+    this.sunlight.position = new Vector3(10, 10, -10);
+    this.sunlight.intensity = 1.2;
+
+    this.shadowGenerator = new ShadowGenerator(4096, this.sunlight);
+    this.shadowGenerator.useContactHardeningShadow = true;
+
+    this.initCheeses();
+    this.initBarEnvironement();
   }
 
-  public initCheeseDisplay(): void {
+  public initCheeses(): void {
+    // SceneLoader.ImportMesh(
+    //   '',
+    //   'assets/models/cheese/',
+    //   'cheese.glb',
+    //   this.scene,
+    //   (meshes) => {
+    //     meshes.forEach((mesh) => {
+    //       mesh.scaling = new Vector3(0.6, 0.6, 0.6);
+    //       mesh.position = new Vector3(-3, -2, 1.5);
+    //       mesh.rotation = new Vector3(Math.PI, 0, Math.PI);
+    //       this.shadowGenerator.addShadowCaster(mesh, true);
+    //     });
+    //   }
+    // );
+
     SceneLoader.ImportMesh(
       '',
       'assets/models/cheese/',
-      'cheese.glb',
-      this.scene
+      'cheddar.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.scaling = new Vector3(8, 8, 8);
+          mesh.rotation = new Vector3(0, 0, Math.PI / 2);
+          mesh.position = new Vector3(5, 3, 0);
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'brie.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.scaling = new Vector3(0.26, 0.26, 0.26);
+          mesh.rotation = new Vector3(Math.PI / 2, Math.PI / 4, Math.PI);
+          mesh.position = new Vector3(5.6, 1.35, -3.2);
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
     );
   }
 
-  public initSSR(): void {
-    const ground = MeshBuilder.CreateGround(
-      'ground',
-      { width: 128, height: 128 },
-      this.scene
+  public initBarEnvironement(): void {
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/structures/',
+      'sushi_bar.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
     );
-
-    const mirrorMaterial = new StandardMaterial('mirror', this.scene);
-    mirrorMaterial.specularColor = new Color3(1, 1, 1);
-
-    ground.material = mirrorMaterial;
-
-    ground.position.y = -1.1;
-
-    const ssr = new SSRRenderingPipeline(
-      'ssr', // The name of the pipeline
-      this.scene, // The scene to which the pipeline belongs
-      [this.scene.activeCamera], // The list of cameras to attach the pipeline to
-      false, // Whether or not to use the geometry buffer renderer (default: false, use the pre-pass renderer)
-      Constants.TEXTURETYPE_UNSIGNED_BYTE // The texture type used by the SSR effect (default: TEXTURETYPE_UNSIGNED_BYTE)
-    );
-
-    ssr.thickness = 0.1;
-    ssr.enableSmoothReflections = true;
-    ssr.step = 15;
-
-    ssr.isEnabled = true;
   }
 
   public animate(): void {
