@@ -13,7 +13,9 @@ import {
   Tools,
   Space,
   Quaternion,
+  AxesViewer,
 } from '@babylonjs/core';
+import { Inspector } from '@babylonjs/inspector';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
@@ -66,35 +68,41 @@ export class EngineService {
 
     this.sunlight = new DirectionalLight(
       'sunlight',
-      new Vector3(-2, -1, 1.8),
+      new Vector3(-5, -5, 0),
       this.scene
     );
 
-    this.sunlight.position = new Vector3(10, 10, -10);
+    this.sunlight.position = new Vector3(10, 20, -8);
     this.sunlight.intensity = 1.2;
 
-    this.shadowGenerator = new ShadowGenerator(4096, this.sunlight);
+    // const helper = new DirectionalLightFrustumViewer(
+    //   this.sunlight,
+    //   this.camera
+    // );
+
+    this.shadowGenerator = new ShadowGenerator(8192, this.sunlight);
     this.shadowGenerator.useContactHardeningShadow = true;
 
     this.initCheeses();
-    this.initBarEnvironement();
+    this.initEnvironement();
+    this.initMoustache();
+
+    Inspector.Show(this.scene, {});
   }
 
   public initCheeses(): void {
-    // SceneLoader.ImportMesh(
-    //   '',
-    //   'assets/models/cheese/',
-    //   'cheese.glb',
-    //   this.scene,
-    //   (meshes) => {
-    //     meshes.forEach((mesh) => {
-    //       mesh.scaling = new Vector3(0.6, 0.6, 0.6);
-    //       mesh.position = new Vector3(-3, -2, 1.5);
-    //       mesh.rotation = new Vector3(Math.PI, 0, Math.PI);
-    //       this.shadowGenerator.addShadowCaster(mesh, true);
-    //     });
-    //   }
-    // );
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'cheese.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
 
     SceneLoader.ImportMesh(
       '',
@@ -103,9 +111,6 @@ export class EngineService {
       this.scene,
       (meshes) => {
         meshes.forEach((mesh) => {
-          mesh.scaling = new Vector3(8, 8, 8);
-          mesh.rotation = new Vector3(0, 0, Math.PI / 2);
-          mesh.position = new Vector3(5, 3, 0);
           mesh.receiveShadows = true;
           this.shadowGenerator.addShadowCaster(mesh, true);
         });
@@ -119,9 +124,58 @@ export class EngineService {
       this.scene,
       (meshes) => {
         meshes.forEach((mesh) => {
-          mesh.scaling = new Vector3(0.26, 0.26, 0.26);
-          mesh.rotation = new Vector3(Math.PI / 2, Math.PI / 4, Math.PI);
-          mesh.position = new Vector3(5.6, 1.35, -3.2);
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'half_cheese_wheel.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'roquefort_cheese.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'parmesan.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/cheese/',
+      'blue_cheese.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
           mesh.receiveShadows = true;
           this.shadowGenerator.addShadowCaster(mesh, true);
         });
@@ -129,11 +183,48 @@ export class EngineService {
     );
   }
 
-  public initBarEnvironement(): void {
+  public initEnvironement(): void {
     SceneLoader.ImportMesh(
       '',
       'assets/models/structures/',
-      'sushi_bar.glb',
+      'capital_isle.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          if (
+            mesh.name.includes('Guest') ||
+            mesh.name.includes('queen') ||
+            mesh.name.includes('Moon') ||
+            mesh.name.includes('Sun') ||
+            mesh.name.includes('Viking') ||
+            mesh.name.includes('archer')
+          ) {
+            mesh.dispose();
+          }
+          mesh.receiveShadows = true;
+          this.shadowGenerator.addShadowCaster(mesh, true);
+        });
+      }
+    );
+
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/skybox/',
+      'anime_sky.glb',
+      this.scene,
+      (meshes) => {
+        meshes.forEach((mesh) => {
+          mesh.scaling = new Vector3(2, 2, 2);
+        });
+      }
+    );
+  }
+
+  public initMoustache(): void {
+    SceneLoader.ImportMesh(
+      '',
+      'assets/models/moustache/',
+      'mustache.glb',
       this.scene,
       (meshes) => {
         meshes.forEach((mesh) => {
